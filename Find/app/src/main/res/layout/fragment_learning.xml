@@ -1,0 +1,43 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context="io.github.pablomusumeci.find.ui.fragments.LearningFragment">
+    <RelativeLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
+        <TextView
+                android:id="@+id/learning_location"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/learning_location"/>
+
+        <EditText
+                android:id="@+id/learning_location_value"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/learning_location"/>
+
+        <ProgressBar
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:indeterminate="true"
+                android:layout_below="@+id/learning_location_value"
+                android:id="@+id/progress_bar"
+                android:visibility="invisible"/>
+
+        <Button android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_learning"
+                android:onClick="startLearning"
+                android:id="@+id/start_learning"
+                android:layout_below="@+id/progress_bar"
+                android:layout_gravity="center_horizontal"/>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/learning_status_value"
+                android:layout_below="@id/start_learning"
+                android:layout_gravity="center_horizontal"/>
+    </RelativeLayout>
+
+</FrameLayout>
