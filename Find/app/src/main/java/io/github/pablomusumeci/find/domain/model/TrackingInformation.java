@@ -1,4 +1,4 @@
-package io.github.pablomusumeci.find.ui.model;
+package io.github.pablomusumeci.find.domain.model;
 
 import com.google.gson.annotations.SerializedName;
 

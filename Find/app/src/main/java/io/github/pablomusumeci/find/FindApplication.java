@@ -1,8 +1,8 @@
-package io.github.pablomusumeci.find.ui;
+package io.github.pablomusumeci.find;
 
 import android.app.Application;
-import io.github.pablomusumeci.find.ui.services.HttpService;
-import io.github.pablomusumeci.find.ui.services.ServiceGenerator;
+import io.github.pablomusumeci.find.domain.services.api.HttpService;
+import io.github.pablomusumeci.find.domain.services.api.ServiceGenerator;
 
 /**
  * Created by pablomusumeci on 4/24/16.

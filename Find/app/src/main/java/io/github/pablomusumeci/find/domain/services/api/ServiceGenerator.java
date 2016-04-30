@@ -1,4 +1,4 @@
-package io.github.pablomusumeci.find.ui.services;
+package io.github.pablomusumeci.find.domain.services.api;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

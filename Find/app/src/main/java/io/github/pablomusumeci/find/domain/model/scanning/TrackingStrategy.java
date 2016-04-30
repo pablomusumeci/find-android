@@ -1,4 +1,4 @@
-package io.github.pablomusumeci.find.ui.model.scanning;
+package io.github.pablomusumeci.find.domain.model.scanning;
 
 import java.io.IOException;
 import java.io.Serializable;
@@ -7,11 +7,11 @@ import java.util.Date;
 import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
-import io.github.pablomusumeci.find.ui.events.TrackingEvent;
-import io.github.pablomusumeci.find.ui.model.TrackingInformation;
-import io.github.pablomusumeci.find.ui.model.TrackingInformationBuilder;
-import io.github.pablomusumeci.find.ui.services.HttpService;
-import io.github.pablomusumeci.find.ui.services.TrackingResponse;
+import io.github.pablomusumeci.find.domain.events.TrackingEvent;
+import io.github.pablomusumeci.find.domain.model.TrackingInformation;
+import io.github.pablomusumeci.find.domain.model.TrackingInformationBuilder;
+import io.github.pablomusumeci.find.domain.services.api.HttpService;
+import io.github.pablomusumeci.find.domain.services.api.TrackingResponse;
 import org.greenrobot.eventbus.EventBus;
 import retrofit2.Call;
 

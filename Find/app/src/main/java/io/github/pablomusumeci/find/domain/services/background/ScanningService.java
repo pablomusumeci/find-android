@@ -1,13 +1,14 @@
-package io.github.pablomusumeci.find.ui.services;
+package io.github.pablomusumeci.find.domain.services.background;
 
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.os.Bundle;
-import io.github.pablomusumeci.find.ui.FindApplication;
-import io.github.pablomusumeci.find.ui.events.ScanningCancelled;
-import io.github.pablomusumeci.find.ui.model.scanning.ScanningStrategy;
+import io.github.pablomusumeci.find.FindApplication;
+import io.github.pablomusumeci.find.domain.events.ScanningCancelled;
+import io.github.pablomusumeci.find.domain.model.scanning.ScanningStrategy;
+import io.github.pablomusumeci.find.domain.services.api.HttpService;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
@@ -39,7 +40,7 @@ public class ScanningService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
         Bundle bundle = intent.getExtras();
-        ScanningStrategy scanningStrategy = (ScanningStrategy) bundle.getSerializable("strategy");
+            ScanningStrategy scanningStrategy = (ScanningStrategy) bundle.getSerializable("strategy");
         while (shouldRun.get()) {
             try {
                 scanningStrategy.scan(getApplicationContext(), bundle, httpService);

@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import io.github.pablomusumeci.find.R;
-import io.github.pablomusumeci.find.ui.events.TrackingEvent;
+import io.github.pablomusumeci.find.domain.events.TrackingEvent;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

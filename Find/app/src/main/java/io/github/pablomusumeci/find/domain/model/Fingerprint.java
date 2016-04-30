@@ -1,4 +1,4 @@
-package io.github.pablomusumeci.find.ui.model;
+package io.github.pablomusumeci.find.domain.model;
 
 /**
  * Created by pablomusumeci on 4/24/16.

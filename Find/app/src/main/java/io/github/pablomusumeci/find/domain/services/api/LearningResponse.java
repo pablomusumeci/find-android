@@ -1,4 +1,4 @@
-package io.github.pablomusumeci.find.ui.services;
+package io.github.pablomusumeci.find.domain.services.api;
 
 /**
  * Created by pablomusumeci on 4/26/16.

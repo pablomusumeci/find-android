@@ -1,6 +1,6 @@
-package io.github.pablomusumeci.find.ui.events;
+package io.github.pablomusumeci.find.domain.events;
 
-import io.github.pablomusumeci.find.ui.services.TrackingResponse;
+import io.github.pablomusumeci.find.domain.services.api.TrackingResponse;
 
 /**
  * Created by pablomusumeci on 4/24/16.

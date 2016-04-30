@@ -1,4 +1,4 @@
-package io.github.pablomusumeci.find.ui.services;
+package io.github.pablomusumeci.find.domain.services.api;
 
 import java.util.Map;
 

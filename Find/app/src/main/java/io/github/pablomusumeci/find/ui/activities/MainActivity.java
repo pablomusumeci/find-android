@@ -3,6 +3,7 @@ package io.github.pablomusumeci.find.ui.activities;
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.wifi.WifiManager;
@@ -15,32 +16,54 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import io.github.pablomusumeci.find.R;
-import io.github.pablomusumeci.find.ui.events.ScanningCancelled;
+import io.github.pablomusumeci.find.domain.events.ErrorEvent;
+import io.github.pablomusumeci.find.domain.events.ScanningCancelled;
+import io.github.pablomusumeci.find.domain.model.scanning.LearningStrategy;
+import io.github.pablomusumeci.find.domain.model.scanning.TrackingStrategy;
+import io.github.pablomusumeci.find.domain.services.background.ScanningService;
 import io.github.pablomusumeci.find.ui.fragments.LearningFragment;
 import io.github.pablomusumeci.find.ui.fragments.MainFragment;
 import io.github.pablomusumeci.find.ui.fragments.TrackingFragment;
-import io.github.pablomusumeci.find.ui.model.scanning.LearningStrategy;
-import io.github.pablomusumeci.find.ui.model.scanning.TrackingStrategy;
-import io.github.pablomusumeci.find.ui.services.ScanningService;
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_main);
         replaceMainFragment(new MainFragment());
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
+    protected void onDestroy() {
+        EventBus.getDefault().unregister(this);
+        super.onDestroy();
     }
 
-    @Override
-    protected void onStop() {
-        super.onStop();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void showErrorDialog(ErrorEvent event) {
+        showAlertDialog(event.getTitle(), event.getMessage());
+    }
+
+    private void showAlertDialog(String title, String message) {
+
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                MainActivity.this);
+
+        alertDialogBuilder.setTitle(title)
+                .setMessage(message)
+                .setCancelable(false)
+                .setPositiveButton(R.string.alert_dialog_ok,
+                                   new DialogInterface.OnClickListener() {
+                                       public void onClick(DialogInterface dialog, int id) {
+                                           // do nothing
+                                       }
+                                   }
+                ).show();
     }
 
     public void track(View view) {
@@ -84,15 +107,7 @@ public class MainActivity extends AppCompatActivity {
         checkWifiPermissions();
         WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (!wifiManager.isWifiEnabled()) {
-            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                    getApplication().getApplicationContext());
-
-            alertDialogBuilder.setTitle("Wifi Settings");
-            alertDialogBuilder
-                    .setMessage("WIFI must be activated")
-                    .setCancelable(false);
-            alertDialogBuilder.show();
-
+            showAlertDialog("Wifi Settings", "WIFI must be activated");
             startActivity(new Intent(wifiManager.ACTION_PICK_WIFI_NETWORK));
         }
     }

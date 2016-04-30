@@ -1,6 +1,6 @@
-package io.github.pablomusumeci.find.ui.services;
+package io.github.pablomusumeci.find.domain.services.api;
 
-import io.github.pablomusumeci.find.ui.model.TrackingInformation;
+import io.github.pablomusumeci.find.domain.model.TrackingInformation;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.POST;

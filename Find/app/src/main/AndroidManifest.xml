@@ -13,9 +13,9 @@
             android:label="@string/app_name"
             android:supportsRtl="true"
             android:theme="@style/AppTheme"
-            android:name=".ui.FindApplication">
+            android:name=".FindApplication">
 
-        <service android:name=".ui.services.ScanningService" android:exported="false"/>
+        <service android:name=".domain.services.background.ScanningService" android:exported="false"/>
 
         <activity android:name=".ui.activities.MainActivity">
             <intent-filter>
