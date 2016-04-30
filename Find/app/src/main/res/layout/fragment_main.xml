@@ -23,13 +23,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Learn"
-                android:onClick="learn"
                 android:id="@+id/learn" android:layout_gravity="center_horizontal"/>
         <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Track"
-                android:onClick="track"
                 android:id="@+id/track" android:layout_gravity="center_horizontal"/>
     </LinearLayout>
 

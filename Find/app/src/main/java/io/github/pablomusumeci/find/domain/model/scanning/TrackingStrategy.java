@@ -2,15 +2,17 @@ package io.github.pablomusumeci.find.domain.model.scanning;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.net.ConnectException;
 import java.util.Date;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import io.github.pablomusumeci.find.domain.events.ErrorEvent;
 import io.github.pablomusumeci.find.domain.events.TrackingEvent;
 import io.github.pablomusumeci.find.domain.model.TrackingInformation;
 import io.github.pablomusumeci.find.domain.model.TrackingInformationBuilder;
 import io.github.pablomusumeci.find.domain.services.api.HttpService;
+import io.github.pablomusumeci.find.domain.services.api.ServiceGenerator;
 import io.github.pablomusumeci.find.domain.services.api.TrackingResponse;
 import org.greenrobot.eventbus.EventBus;
 import retrofit2.Call;
@@ -36,10 +38,17 @@ public class TrackingStrategy implements ScanningStrategy, Serializable {
             TrackingResponse response = call.execute().body();
             EventBus.getDefault().post(new TrackingEvent(response));
         }
-        catch (IOException e) {
-            Log.e("TrackingStrategy", e.getMessage());
+        catch (ConnectException e) {
             e.printStackTrace();
-            throw new Exception("An error happened during the tracking process");
+            String message = String.format("Cannot connect to server '%s'", ServiceGenerator.API_BASE_URL);
+            EventBus.getDefault().post(new ErrorEvent("Connection error", message));
+            throw new Exception(message);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            String message = "An error happened during the learning process";
+            EventBus.getDefault().post(new ErrorEvent("Error", message));
+            throw new Exception(message);
         }
     }
 }

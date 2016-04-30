@@ -12,13 +12,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.Toast;
 import io.github.pablomusumeci.find.R;
 import io.github.pablomusumeci.find.domain.events.ErrorEvent;
-import io.github.pablomusumeci.find.domain.events.ScanningCancelled;
-import io.github.pablomusumeci.find.domain.model.scanning.LearningStrategy;
 import io.github.pablomusumeci.find.domain.model.scanning.TrackingStrategy;
 import io.github.pablomusumeci.find.domain.services.background.ScanningService;
 import io.github.pablomusumeci.find.ui.fragments.LearningFragment;
@@ -28,14 +23,14 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MainActivityListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
         setContentView(R.layout.activity_main);
-        replaceMainFragment(new MainFragment());
+        goToMainFragment();
     }
 
     @Override
@@ -66,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
                 ).show();
     }
 
-    public void track(View view) {
+    public void startTracking() {
         checkWifiEnabled();
         Intent mServiceIntent = new Intent(this, ScanningService.class);
         mServiceIntent.putExtra("strategy", new TrackingStrategy());
@@ -74,35 +69,12 @@ public class MainActivity extends AppCompatActivity {
         replaceMainFragment(new TrackingFragment());
     }
 
-    public void learn(View view) {
+    public void startLearning() {
         checkWifiEnabled();
         replaceMainFragment(new LearningFragment());
     }
 
-    public void returnFromTracking(View view) {
-
-        EventBus.getDefault().post(new ScanningCancelled());
-        replaceMainFragment(new MainFragment());
-    }
-
-    public void returnFromLearning(View view) {
-
-        EventBus.getDefault().post(new ScanningCancelled());
-        replaceMainFragment(new MainFragment());
-    }
-
-    public void startLearning(View view) {
-        EditText learningLocation = (EditText) findViewById(R.id.learning_location_value);
-        if (learningLocation.getText().toString().isEmpty()) {
-            Toast.makeText(this, "You must enter a location", Toast.LENGTH_SHORT).show();
-        }
-        else {
-            Intent mServiceIntent = new Intent(this, ScanningService.class);
-            mServiceIntent.putExtra("strategy", new LearningStrategy());
-            this.startService(mServiceIntent);
-        }
-    }
-
+     //TODO create class wifi utils
     private void checkWifiEnabled() {
         checkWifiPermissions();
         WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
@@ -112,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //TODO create class wifi utils
     private void checkWifiPermissions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             requestPermissions(new String[] {Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
@@ -133,5 +106,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void replaceMainFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
+    }
+
+    @Override
+    public void goToMainFragment() {
+        replaceMainFragment(new MainFragment());
     }
 }
