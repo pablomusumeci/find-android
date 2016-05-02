@@ -10,4 +10,6 @@ public interface MainActivityListener {
     void startLearning();
 
     void startTracking();
+
+    void showAlertDialog(String title, String message);
 }

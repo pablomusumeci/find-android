@@ -1,5 +1,7 @@
 package io.github.pablomusumeci.find.domain.model.scanning;
 
+import com.pixplicity.easyprefs.library.Prefs;
+
 import java.io.IOException;
 import java.io.Serializable;
 import java.net.ConnectException;
@@ -14,6 +16,7 @@ import io.github.pablomusumeci.find.domain.model.TrackingInformationBuilder;
 import io.github.pablomusumeci.find.domain.services.api.HttpService;
 import io.github.pablomusumeci.find.domain.services.api.LearningResponse;
 import io.github.pablomusumeci.find.domain.services.api.ServiceGenerator;
+import io.github.pablomusumeci.find.utils.Constants;
 import org.greenrobot.eventbus.EventBus;
 import retrofit2.Call;
 
@@ -25,7 +28,7 @@ public class LearningStrategy implements ScanningStrategy, Serializable {
     public void scan(Context context, Bundle bundle, HttpService httpService) throws Exception {
 
         TrackingInformation trackingInformation = new TrackingInformationBuilder()
-                .withGroup(bundle.getString("group"))
+                .withGroup(Prefs.getString(Constants.USERNAME, ""))
                 .withUser(bundle.getString("user"))
                 .withLocation(bundle.getString("location"))
                 .withTime(new Date())
