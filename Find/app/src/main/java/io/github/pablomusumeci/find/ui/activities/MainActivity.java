@@ -127,10 +127,22 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
      //TODO create class wifi utils
     private void checkWifiEnabled() {
         checkWifiPermissions();
-        WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
+        final WifiManager wifiManager = (WifiManager) getSystemService(Context.WIFI_SERVICE);
         if (!wifiManager.isWifiEnabled()) {
-            showAlertDialog("Wifi Settings", "WIFI must be activated");
-            startActivity(new Intent(wifiManager.ACTION_PICK_WIFI_NETWORK));
+
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    MainActivity.this);
+
+            alertDialogBuilder.setTitle("Wifi Settings")
+                    .setMessage("WiFi must be activated in order to scan for available networks")
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.activate_wifi,
+                                       new DialogInterface.OnClickListener() {
+                                           public void onClick(DialogInterface dialog, int id) {
+                                               startActivity(new Intent(WifiManager.ACTION_PICK_WIFI_NETWORK));
+                                           }
+                                       }
+                    ).show();
         }
     }
 
@@ -149,8 +161,19 @@ public class MainActivity extends AppCompatActivity implements MainActivityListe
             && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
         }
         else {
-            Log.e("main activity", "perm not granted");
+            AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                    MainActivity.this);
 
+            alertDialogBuilder.setTitle("Permissions not granted")
+                    .setMessage("Permissions must be granted in order to scan for available networks")
+                    .setCancelable(false)
+                    .setPositiveButton(R.string.activate_wifi,
+                                       new DialogInterface.OnClickListener() {
+                                           public void onClick(DialogInterface dialog, int id) {
+                                           }
+                                       }
+                    ).show();
+            Log.e("main activity", "permissions not granted");
         }
     }
 

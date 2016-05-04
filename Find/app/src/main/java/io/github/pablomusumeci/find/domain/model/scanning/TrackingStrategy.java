@@ -7,12 +7,13 @@ import java.util.Date;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import io.github.pablomusumeci.find.domain.events.ErrorEvent;
 import io.github.pablomusumeci.find.domain.events.TrackingEvent;
+import io.github.pablomusumeci.find.domain.model.ApplicationSettings;
 import io.github.pablomusumeci.find.domain.model.TrackingInformation;
 import io.github.pablomusumeci.find.domain.model.TrackingInformationBuilder;
 import io.github.pablomusumeci.find.domain.services.api.HttpService;
-import io.github.pablomusumeci.find.domain.services.api.ServiceGenerator;
 import io.github.pablomusumeci.find.domain.services.api.TrackingResponse;
 import org.greenrobot.eventbus.EventBus;
 import retrofit2.Call;
@@ -25,8 +26,8 @@ public class TrackingStrategy implements ScanningStrategy, Serializable {
     public void scan(Context context, Bundle bundle, HttpService httpService) throws Exception {
 
         TrackingInformation trackingInformation = new TrackingInformationBuilder()
-                .withGroup(bundle.getString("group"))
-                .withUser(bundle.getString("user"))
+                .withGroup(ApplicationSettings.getGroupName())
+                .withUser(ApplicationSettings.getUsername())
                 .withTime(new Date())
                 .withScannedFingerprints(context)
                 .build();
@@ -39,13 +40,13 @@ public class TrackingStrategy implements ScanningStrategy, Serializable {
             EventBus.getDefault().post(new TrackingEvent(response));
         }
         catch (ConnectException e) {
-            e.printStackTrace();
-            String message = String.format("Cannot connect to server '%s'", ServiceGenerator.API_BASE_URL);
+            Log.e("TrackingStrategy", e.getMessage());
+            String message = String.format("Cannot connect to server '%s'", ApplicationSettings.getServerAddress());
             EventBus.getDefault().post(new ErrorEvent("Connection error", message));
             throw new Exception(message);
         }
         catch (IOException e) {
-            e.printStackTrace();
+            Log.e("TrackingStrategy", e.getMessage());
             String message = "An error happened during the learning process";
             EventBus.getDefault().post(new ErrorEvent("Error", message));
             throw new Exception(message);

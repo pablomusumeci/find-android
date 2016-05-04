@@ -1,12 +1,6 @@
 package io.github.pablomusumeci.find.ui.fragments;
 
-import static io.github.pablomusumeci.find.utils.Constants.DEFAULT_SERVER_ADDRESS;
-import static io.github.pablomusumeci.find.utils.Constants.GROUP_NAME;
-import static io.github.pablomusumeci.find.utils.Constants.SERVER_ADDRESS;
-import static io.github.pablomusumeci.find.utils.Constants.USERNAME;
 import static io.github.pablomusumeci.find.utils.ViewUtils.isEmpty;
-
-import com.pixplicity.easyprefs.library.Prefs;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,13 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import io.github.pablomusumeci.find.R;
+import io.github.pablomusumeci.find.domain.model.ApplicationSettings;
 import io.github.pablomusumeci.find.ui.activities.MainActivityListener;
 
-public class SettingFragment extends Fragment {
+public class SettingsFragment extends Fragment {
 
     MainActivityListener listener;
 
-    public SettingFragment() {
+    public SettingsFragment() {
         // Required empty public constructor
     }
 
@@ -59,9 +54,9 @@ public class SettingFragment extends Fragment {
                     listener.showAlertDialog("Incomplete form", "All the fields are required");
                 }
                 else {
-                    setPrefences(userName.getText().toString(),
-                                 groupName.getText().toString(),
-                                 serverAddress.getText().toString());
+                    ApplicationSettings.setUsername(userName.getText().toString());
+                    ApplicationSettings.setGroupName(groupName.getText().toString());
+                    ApplicationSettings.setServerAddress(serverAddress.getText().toString());
                 }
             }
         });
@@ -70,20 +65,13 @@ public class SettingFragment extends Fragment {
 
     private void loadPreferences(View v) {
         EditText userName = (EditText) v.findViewById(R.id.username);
-        userName.setText(Prefs.getString(USERNAME, ""));
+        userName.setText(ApplicationSettings.getUsername());
 
         EditText groupName = (EditText) v.findViewById(R.id.group_name);
-        groupName.setText(Prefs.getString(GROUP_NAME, ""));
+        groupName.setText(ApplicationSettings.getGroupName());
 
         EditText serverAddress = (EditText) v.findViewById(R.id.server_address);
-        serverAddress.setText(Prefs.getString(SERVER_ADDRESS, DEFAULT_SERVER_ADDRESS));
+        serverAddress.setText(ApplicationSettings.getServerAddress());
 
     }
-
-    private void setPrefences(String userName, String groupName, String serverAddress){
-        Prefs.putString(USERNAME, userName);
-        Prefs.putString(GROUP_NAME, groupName);
-        Prefs.putString(SERVER_ADDRESS, serverAddress);
-    }
-
 }
