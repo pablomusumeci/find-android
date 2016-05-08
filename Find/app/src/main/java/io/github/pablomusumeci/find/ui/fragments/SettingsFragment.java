@@ -8,13 +8,22 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
+import io.github.pablomusumeci.find.FindApplication;
 import io.github.pablomusumeci.find.R;
 import io.github.pablomusumeci.find.domain.model.ApplicationSettings;
 import io.github.pablomusumeci.find.ui.activities.MainActivityListener;
 
 public class SettingsFragment extends Fragment {
+
+    @BindView(R.id.username) EditText userName;
+    @BindView(R.id.group_name) EditText groupName;
+    @BindView(R.id.server_address) EditText serverAddress;
+    private Unbinder unbinder;
 
     MainActivityListener listener;
 
@@ -42,35 +51,38 @@ public class SettingsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_setting, container, false);
-        loadPreferences(view);
-        Button button = (Button) view.findViewById(R.id.save_settings);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EditText userName = (EditText) view.findViewById(R.id.username);
-                EditText groupName = (EditText) view.findViewById(R.id.group_name);
-                EditText serverAddress = (EditText) view.findViewById(R.id.server_address);
-                if (isEmpty(userName) || isEmpty(groupName) || isEmpty(serverAddress)) {
-                    listener.showAlertDialog("Incomplete form", "All the fields are required");
-                }
-                else {
-                    ApplicationSettings.setUsername(userName.getText().toString());
-                    ApplicationSettings.setGroupName(groupName.getText().toString());
-                    ApplicationSettings.setServerAddress(serverAddress.getText().toString());
-                }
-            }
-        });
+        unbinder = ButterKnife.bind(this, view);
+        loadPreferences();
         return view;
     }
 
-    private void loadPreferences(View v) {
-        EditText userName = (EditText) v.findViewById(R.id.username);
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick(R.id.save_settings)
+    public void saveSettings() {
+        if (isEmpty(userName) || isEmpty(groupName) || isEmpty(serverAddress)) {
+            listener.showAlertDialog("Incomplete form", "All the fields are required");
+        }
+        else {
+            ApplicationSettings.setUsername(userName.getText().toString());
+            ApplicationSettings.setGroupName(groupName.getText().toString());
+            ApplicationSettings.setServerAddress(serverAddress.getText().toString());
+
+            // Use new server address
+            FindApplication application = (FindApplication) getActivity().getApplication();
+            application.setHttpService();
+
+            listener.goToMainFragment();
+        }
+    }
+
+    private void loadPreferences() {
         userName.setText(ApplicationSettings.getUsername());
-
-        EditText groupName = (EditText) v.findViewById(R.id.group_name);
         groupName.setText(ApplicationSettings.getGroupName());
-
-        EditText serverAddress = (EditText) v.findViewById(R.id.server_address);
         serverAddress.setText(ApplicationSettings.getServerAddress());
 
     }

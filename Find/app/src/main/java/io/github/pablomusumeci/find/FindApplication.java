@@ -12,14 +12,17 @@ import io.github.pablomusumeci.find.domain.services.api.ServiceGenerator;
  */
 public class FindApplication extends Application {
 
-    private final HttpService httpService;
+    private HttpService httpService;
 
     public FindApplication() {
-        httpService = ServiceGenerator.createService(HttpService.class);
     }
 
     public HttpService getHttpService() {
         return httpService;
+    }
+
+    public void setHttpService(){
+        httpService = ServiceGenerator.createService(HttpService.class);
     }
 
     @Override
@@ -32,5 +35,7 @@ public class FindApplication extends Application {
                 .setPrefsName(getPackageName())
                 .setUseDefaultSharedPreference(true)
                 .build();
+
+        setHttpService();
     }
 }

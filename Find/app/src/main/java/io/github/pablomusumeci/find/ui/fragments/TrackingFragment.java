@@ -8,6 +8,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import io.github.pablomusumeci.find.R;
 import io.github.pablomusumeci.find.domain.events.ScanningCancelled;
 import io.github.pablomusumeci.find.domain.events.TrackingEvent;
@@ -17,6 +21,8 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 public class TrackingFragment extends Fragment {
+    @BindView(R.id.return_from_tracking) Button button;
+    private Unbinder unbinder;
 
     private MainActivityListener listener;
 
@@ -28,8 +34,6 @@ public class TrackingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EventBus.getDefault().register(this);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -42,15 +46,22 @@ public class TrackingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.fragment_tracking, container, false);
-        Button button = (Button) view.findViewById(R.id.return_from_tracking);
-        button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().post(new ScanningCancelled());
-                listener.goToMainFragment();
-            }
-        });
+        unbinder = ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+        // stop scanning thread
+        EventBus.getDefault().post(new ScanningCancelled());
+    }
+
+    @OnClick(R.id.return_from_tracking)
+     public void returnFromTracking(){
+        EventBus.getDefault().post(new ScanningCancelled());
+        listener.goToMainFragment();
     }
 
     @Override

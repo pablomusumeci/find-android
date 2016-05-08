@@ -6,11 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.Unbinder;
 import io.github.pablomusumeci.find.R;
 import io.github.pablomusumeci.find.ui.activities.MainActivityListener;
 
 public class MainFragment extends Fragment {
-
+    private Unbinder unbinder;
     private MainActivityListener listener;
 
     public MainFragment() {
@@ -37,22 +40,23 @@ public class MainFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-
-        view.findViewById(R.id.learn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.startLearning();
-            }
-        });
-
-
-        view.findViewById(R.id.track).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.startTracking();
-            }
-        });
-
+        unbinder = ButterKnife.bind(this, view);
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @OnClick(R.id.learn)
+    public void learn(){
+        listener.startLearning();
+    }
+
+    @OnClick(R.id.track)
+    public void track(){
+        listener.startTracking();
     }
 }
