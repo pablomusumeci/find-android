@@ -45,6 +45,7 @@ public class MainActivity extends NavigationDrawerActivity implements MainActivi
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void showErrorDialog(ErrorEvent event) {
         showAlertDialog(event.getTitle(), event.getMessage());
+        goToMainFragment();
     }
 
     public void showAlertDialog(String title, String message) {
@@ -132,7 +133,7 @@ public class MainActivity extends NavigationDrawerActivity implements MainActivi
 
     @Override
     protected void replaceMainFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_fragment, fragment).addToBackStack("main").commit();
     }
 
     @Override

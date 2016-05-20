@@ -10,6 +10,11 @@
 
     <style name="buttonStyle" parent="Widget.AppCompat.Button.Colored"></style>
 
+    <style name="textStyle">
+        <item name="android:textSize">17sp</item>
+        <item name="android:layout_marginLeft">10dp</item>
+    </style>
+
     <style name="progressBarStyle">
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:indeterminate">true</item>

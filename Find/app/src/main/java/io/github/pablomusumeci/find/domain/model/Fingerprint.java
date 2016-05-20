@@ -9,6 +9,11 @@ public class Fingerprint {
 
     private String mac;
 
+    public Fingerprint(String bssid, int level) {
+        this.mac = bssid;
+        this.rssi = level;
+    }
+
     public int getRssi() {
         return rssi;
     }

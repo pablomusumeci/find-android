@@ -22,6 +22,10 @@ import org.greenrobot.eventbus.ThreadMode;
 
 public class TrackingFragment extends Fragment {
     @BindView(R.id.return_from_tracking) Button button;
+    @BindView(R.id.current_location_value) TextView currentLocation;
+    @BindView(R.id.response_value) TextView  responseMessage;
+    @BindView(R.id.response_status) TextView  responseStatus;
+
     private Unbinder unbinder;
 
     private MainActivityListener listener;
@@ -54,7 +58,6 @@ public class TrackingFragment extends Fragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
-        // stop scanning thread
         EventBus.getDefault().post(new ScanningCancelled());
     }
 
@@ -77,8 +80,9 @@ public class TrackingFragment extends Fragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onTrackingEvent(TrackingEvent event) {
-        TextView currentLocation = (TextView) getView().findViewById(R.id.value_location);
         currentLocation.setText(event.getLocation());
+        responseMessage.setText(event.getMessage());
+        responseStatus.setText(event.getSuccess() ? "OK" : "ERROR");
     }
 
 }

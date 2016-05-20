@@ -15,4 +15,9 @@
     <string name="server_name">Server name</string>
     <string name="save">Save</string>
     <string name="activate_wifi">Activate WiFi</string>
+    <string name="response">Response status:</string>
+    <string name="stop_learning">Stop Learning</string>
+    <string name="user_label">User:</string>
+    <string name="group_label">Group:</string>
+    <string name="back">Back</string>
 </resources>

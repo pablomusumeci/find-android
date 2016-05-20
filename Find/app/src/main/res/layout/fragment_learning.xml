@@ -31,21 +31,31 @@
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/learning_status_value"
-                android:inputType="textMultiLine"
+                android:id="@+id/learning_response"
+                android:inputType="textMultiLine|textNoSuggestions"
                 android:layout_below="@id/progress_bar"
                 android:layout_gravity="center_horizontal"
-            />
+                />
+
+        <Button
+                style="@style/buttonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/start_learning"
+                android:id="@+id/start_learning"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"/>
 
         <Button
                 style="@style/buttonStyle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="@string/start_learning"
-                android:id="@+id/start_learning"
-                android:layout_below="@+id/learning_status_value"
-                android:layout_gravity="center_horizontal"/>
+                android:text="@string/stop_learning"
+                android:id="@+id/stop_learning"
+                android:visibility="gone"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"/>
 
     </RelativeLayout>
 

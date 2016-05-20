@@ -17,6 +17,7 @@ import butterknife.OnClick;
 import butterknife.Unbinder;
 import io.github.pablomusumeci.find.R;
 import io.github.pablomusumeci.find.domain.events.LearningEvent;
+import io.github.pablomusumeci.find.domain.events.ScanningCancelled;
 import io.github.pablomusumeci.find.domain.model.scanning.LearningStrategy;
 import io.github.pablomusumeci.find.domain.services.background.ScanningService;
 import org.greenrobot.eventbus.EventBus;
@@ -26,7 +27,10 @@ import org.greenrobot.eventbus.ThreadMode;
 public class LearningFragment extends Fragment {
 
     @BindView(R.id.start_learning)
-    Button button;
+    Button startLearning;
+
+    @BindView(R.id.stop_learning)
+    Button stopLearning;
 
     @BindView(R.id.progress_bar)
     ProgressBar progressBar;
@@ -34,8 +38,8 @@ public class LearningFragment extends Fragment {
     @BindView(R.id.learning_location_value)
     EditText learningLocation;
 
-    @BindView(R.id.learning_status_value)
-    TextView learningStatus;
+    @BindView(R.id.learning_response)
+    TextView learningResponse;
 
     private Unbinder unbinder;
 
@@ -61,25 +65,39 @@ public class LearningFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
+        EventBus.getDefault().post(new ScanningCancelled());
         unbinder.unbind();
     }
 
     @OnClick(R.id.start_learning)
     public void onStartLearning() {
-        if (learningLocation.getText().toString().isEmpty()) {
+        String location = learningLocation.getText().toString();
+        if (location.isEmpty()) {
             Toast.makeText(getActivity(), "You must enter a location", Toast.LENGTH_SHORT).show();
         }
         else {
             Intent mServiceIntent = new Intent(getActivity(), ScanningService.class);
+            mServiceIntent.putExtra("location", location);
             mServiceIntent.putExtra("strategy", new LearningStrategy());
             getActivity().startService(mServiceIntent);
             progressBar.setVisibility(View.VISIBLE);
+            stopLearning.setVisibility(View.VISIBLE);
+            startLearning.setVisibility(View.GONE);
         }
+    }
+
+    @OnClick(R.id.stop_learning)
+    public void onStopLearning() {
+        learningResponse.setText("");
+        progressBar.setVisibility(View.GONE);
+        stopLearning.setVisibility(View.GONE);
+        startLearning.setVisibility(View.VISIBLE);
+        EventBus.getDefault().post(new ScanningCancelled());
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onLearningEvent(LearningEvent event) {
-        learningStatus.setText(event.getMessage());
+        learningResponse.setText(event.getMessage());
     }
 
     @Override
