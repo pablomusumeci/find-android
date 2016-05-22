@@ -28,20 +28,17 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginBottom="10dp"/>
         <Button
+                style="@style/buttonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/colorAccent"
-                android:textColor="@color/colorTextIcon"
                 android:layout_below="@id/home_group_label"
                 android:text="Learn"
                 android:id="@+id/learn"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="10dp"/>
+                android:layout_centerHorizontal="true" />
         <Button
+                style="@style/buttonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorTextIcon"
-                android:background="@color/colorAccent"
                 android:layout_below="@id/learn"
                 android:text="Track"
                 android:id="@+id/track"

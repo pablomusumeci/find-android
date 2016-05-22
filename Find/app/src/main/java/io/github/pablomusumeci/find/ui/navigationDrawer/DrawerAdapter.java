@@ -33,9 +33,9 @@ public class DrawerAdapter extends ArrayAdapter<DrawerItem> {
     private List<DrawerItem> getDrawerItems(){
         List<DrawerItem> items = new ArrayList<>();
 
-        addItem(items, R.string.drawer_home, R.mipmap.icon, DrawerAction.HOME);
-        addItem(items, R.string.drawer_settings, R.mipmap.icon, DrawerAction.SETTINGS);
-        addItem(items, R.string.drawer_dashboard, R.mipmap.icon, DrawerAction.DASHBOARD);
+        addItem(items, R.string.drawer_home, R.drawable.ic_home_black_24dp, DrawerAction.HOME);
+        addItem(items, R.string.drawer_settings, R.drawable.ic_settings_black_24dp, DrawerAction.SETTINGS);
+        addItem(items, R.string.drawer_dashboard, R.drawable.ic_cloud_black_24dp, DrawerAction.DASHBOARD);
 
         return items;
     }
