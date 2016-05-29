@@ -15,7 +15,7 @@
         <item name="android:layout_marginLeft">10dp</item>
     </style>
 
-    <style name="progressBarStyle">
+    <style name="progressBarStyle" parent="Widget.AppCompat.ProgressBar">
         <item name="android:layout_centerHorizontal">true</item>
         <item name="android:indeterminate">true</item>
         <item name="android:layout_marginTop">25dp</item>

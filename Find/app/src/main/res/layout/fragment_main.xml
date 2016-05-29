@@ -42,11 +42,24 @@
                 android:layout_below="@id/home_user_label"
                 style="@style/textStyle"
                 android:layout_toRightOf="@+id/home_group_label"/>
+
+        <ImageView
+                android:src="@drawable/find"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:cropToPadding="false"
+                android:baselineAlignBottom="false"
+                android:adjustViewBounds="true"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentStart="false"
+                android:layout_above="@+id/learn"
+                android:layout_below="@+id/home_group_label"/>
+
         <Button
                 style="@style/buttonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/home_group_label"
+                android:layout_above="@+id/track"
                 android:text="Learn"
                 android:id="@+id/learn"
                 android:layout_centerHorizontal="true" />
@@ -54,9 +67,9 @@
                 style="@style/buttonStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/learn"
                 android:text="Track"
                 android:id="@+id/track"
+                android:layout_alignParentBottom="true"
                 android:layout_centerHorizontal="true"/>
     </RelativeLayout>
 
